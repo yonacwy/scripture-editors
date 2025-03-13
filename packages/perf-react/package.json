@@ -21,13 +21,14 @@
     "epitelete-html": "^0.2.21-beta.2",
     "lexical": "^0.27.1",
     "open-patcher": "1.0.0-beta.1",
-    "pure-uuid": "^1.8.1"
+    "pure-uuid": "^1.8.1",
+    "react-tooltip": "^5.28.0"
   },
   "devDependencies": {
     "@types/base-64": "^1.0.2",
+    "@types/deep-equal": "^1.0.4",
     "@types/react": "^18.3.18",
     "@types/react-dom": "^18.3.5",
-    "@types/deep-equal": "^1.0.4",
     "deep-equal": "^2.2.3",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
