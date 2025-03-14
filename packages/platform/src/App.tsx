@@ -2,6 +2,7 @@ import { Usj, usxStringToUsj } from "@biblionexus-foundation/scripture-utilities
 import { Canon, SerializedVerseRef } from "@sillsdev/scripture";
 import { BookChapterControl } from "platform-bible-react";
 import { ScriptureReference as BCReference } from "platform-bible-utils";
+import { useMediaQuery } from "react-responsive";
 import { MouseEvent, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { WEB_PSA_USX as usx } from "shared/data/WEB-PSA.usx";
 import { WEB_PSA_COMMENTS as comments } from "shared/data/WEB_PSA.comments";
@@ -175,8 +176,10 @@ export default function App() {
     return () => clearTimeout(timeoutId);
   }, []);
 
-  return (
-    <>
+  const isDesktop = useMediaQuery({ minWidth: 768 });
+
+  return isDesktop ? (
+    <div style={{ display: "flex", flexDirection: "column", overflowX: "auto" }}>
       <div className="controls">
         <BookChapterControl scrRef={bcScrRef} handleSubmit={handleBcScrRefChange} />
         <span>
@@ -255,6 +258,87 @@ export default function App() {
         options={options}
         logger={console}
       />
-    </>
+    </div>
+  ) : (
+    <div style={{ display: "flex", flexDirection: "column", overflowX: "auto" }}>
+      <div className="controls">
+        <BookChapterControl scrRef={bcScrRef} handleSubmit={handleBcScrRefChange} />
+        <span>
+          <div>Cursor Location</div>
+          <div>
+            <button onClick={() => handleCursorClick(-3)}>-3</button>
+            <button onClick={() => handleCursorClick(-1)}>-1</button>
+            <button onClick={() => handleCursorClick(1)}>+1</button>
+            <button onClick={() => handleCursorClick(3)}>+3</button>
+          </div>
+        </span>
+        <span>
+          <div>
+            Annotate <AnnotationTypeSelect onChange={handleTypeChange} />
+          </div>
+          <div>
+            <button
+              id="annotation1"
+              className={annotateButtonClass("annotation1")}
+              onClick={handleAnnotationClick}
+            >
+              man
+            </button>
+            <button
+              id="annotation2"
+              className={annotateButtonClass("annotation2")}
+              onClick={handleAnnotationClick}
+            >
+              man who
+            </button>
+            <button
+              id="annotation3"
+              className={annotateButtonClass("annotation3")}
+              onClick={handleAnnotationClick}
+            >
+              stand
+            </button>
+          </div>
+        </span>
+        <button onClick={toggleDefineOptions}>
+          {definedOptions ? "Undefine" : "Define"} Options
+        </button>
+      </div>
+      {definedOptions && (
+        <div className="defined-options">
+          <div className="checkbox">
+            <input
+              type="checkbox"
+              id="isReadonlyCheckBox"
+              checked={isReadonly}
+              onChange={(e) => setIsReadonly(e.target.checked)}
+            />
+            <label htmlFor="isReadonlyCheckBox">Is Readonly</label>
+          </div>
+          <div className="checkbox">
+            <input
+              type="checkbox"
+              id="hasSpellCheckBox"
+              checked={hasSpellCheck}
+              onChange={(e) => setHasSpellCheck(e.target.checked)}
+            />
+            <label htmlFor="hasSpellCheckBox">Has Spell Check</label>
+          </div>
+          <TextDirectionDropDown textDirection={textDirection} handleSelect={setTextDirection} />
+          <ViewModeDropDown viewMode={viewMode} handleSelect={setViewMode} />
+        </div>
+      )}
+      <Marginal
+        ref={marginalRef}
+        defaultUsj={defaultUsj}
+        scrRef={scrRef}
+        onScrRefChange={setScrRef}
+        onSelectionChange={(selection) => console.log({ selection })}
+        onCommentChange={(comments) => console.log({ comments })}
+        onUsjChange={handleUsjChange}
+        options={options}
+        logger={console}
+      />
+    </div>
   );
 }

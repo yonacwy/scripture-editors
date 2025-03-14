@@ -260,10 +260,12 @@ const Editor = forwardRef(function Editor<TLogger extends LoggerBasic>(
           <EditorRefPlugin editorRef={editorRef} />
           <RichTextPlugin
             contentEditable={
-              <ContentEditable
-                className={`editor-input ${getViewClassList(viewOptions).join(" ")}`}
-                spellCheck={hasSpellCheck}
-              />
+              <div>
+                <ContentEditable
+                  className={`editor-input ${getViewClassList(viewOptions).join(" ")}`}
+                  spellCheck={hasSpellCheck}
+                />
+              </div>
             }
             placeholder={<Placeholder />}
             ErrorBoundary={LexicalErrorBoundary}
