@@ -22,6 +22,7 @@
     "lexical": "^0.27.1",
     "open-patcher": "1.0.0-beta.1",
     "pure-uuid": "^1.8.1",
+    "react-responsive": "^10.0.1",
     "react-tooltip": "^5.28.0"
   },
   "devDependencies": {
